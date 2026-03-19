@@ -1,0 +1,13 @@
+etschrome.exe
+lockdownbrowseroem.exe
+lockdownbrowser.exe
+javaw.exe
+proproctor.exe
+questionmark secure for windows desktop.exe
+SafeExamBrowser.Client.exe
+SafeExamBrowser.Server.exe
+psi-bastion.exe
+psi-keygrab.exe
+notepad++.exe
+Notepad++.exe
+Calculator.exe
