@@ -8,6 +8,3 @@ SafeExamBrowser.Client.exe
 SafeExamBrowser.Server.exe
 psi-bastion.exe
 psi-keygrab.exe
-notepad++.exe
-Notepad++.exe
-Calculator.exe
