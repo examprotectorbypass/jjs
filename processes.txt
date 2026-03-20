@@ -8,3 +8,4 @@ SafeExamBrowser.Client.exe
 SafeExamBrowser.Server.exe
 psi-bastion.exe
 psi-keygrab.exe
+proctor360.exe
