@@ -12,3 +12,6 @@ proctor360.exe
 Duolingo English Test.exe
 det-helper-x64.exe
 duolingo_english_test_helper.exe
+Gaurdian Browser.exe
+rcedit.exe
+rcedit-x64.exe
