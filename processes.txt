@@ -15,3 +15,8 @@ duolingo_english_test_helper.exe
 Gaurdian Browser.exe
 rcedit.exe
 rcedit-x64.exe
+cpbrowser.exe
+vtoolexe.exe
+wba.exe
+UASTSManager.exe
+wkswinproc.exe
