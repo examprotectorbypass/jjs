@@ -20,3 +20,8 @@ vtoolexe.exe
 wba.exe
 UASTSManager.exe
 wkswinproc.exe
+notepad.exe
+Notepad.exe
+iceworm.exe
+fortknox.exe
+inspera-launcher.exe
