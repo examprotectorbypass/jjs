@@ -25,3 +25,6 @@ Notepad.exe
 iceworm.exe
 fortknox.exe
 inspera-launcher.exe
+smart-browser-installer.exe
+squirrel.exe
+HackerRank.exe
