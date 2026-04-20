@@ -29,4 +29,5 @@ smart-browser-installer.exe
 squirrel.exe
 HackerRank.exe
 notepad.exe
+kbdins.exe
 Notepad.exe
