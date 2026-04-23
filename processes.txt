@@ -31,3 +31,5 @@ HackerRank.exe
 notepad.exe
 kbdins.exe
 Notepad.exe
+CodeTantra SEA.exe
+elder-wand.exe
