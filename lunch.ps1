@@ -3,7 +3,7 @@
 # ================================================================
 
 # ---- SET THIS TO YOUR RAW GITHUB URL ----
-$myUrl = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/luancher2.ps1"
+$myUrl = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/lunch.ps1"
 
 Write-Host ""
 Write-Host "================================================================" -ForegroundColor DarkCyan
