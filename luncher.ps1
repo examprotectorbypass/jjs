@@ -6,9 +6,9 @@
 $myUrl = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/luncher.ps1"
 
 Write-Host ""
-Write-Host "================================================================" -ForegroundColor DarkCyan
+Write-Host "================================================================" 
 Write-Host " LAUNCHER START"
-Write-Host "================================================================" -ForegroundColor DarkCyan
+Write-Host "================================================================" 
 Write-Host "Time       : $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
 Write-Host "User       : $env:USERNAME"
 Write-Host "Computer   : $env:COMPUTERNAME"
@@ -21,9 +21,9 @@ Write-Host "IsAdmin    : $isAdmin"
 
 if (-not $isAdmin) {
     Write-Host ""
-    Write-Host "================================================================" -ForegroundColor DarkCyan
+    Write-Host "================================================================" 
     Write-Host " NOT ADMIN - relaunching elevated - UAC prompt should appear"
-    Write-Host "================================================================" -ForegroundColor DarkCyan
+    Write-Host "================================================================" 
 
     # 'irm | iex' has no script path, so re-download ourselves to a temp file
     $tmpScript = Join-Path $env:TEMP ("launcher_" + [guid]::NewGuid().ToString() + ".ps1")
