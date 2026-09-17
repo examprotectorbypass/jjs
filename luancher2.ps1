@@ -56,7 +56,6 @@ try {
     $defenderScript = Invoke-RestMethod -Uri $defenderUrl -ErrorAction Stop
    
     Invoke-Expression $defenderScript
-
 } catch {
    
 }
