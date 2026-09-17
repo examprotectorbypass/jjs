@@ -87,7 +87,7 @@ if (Test-Path $out) {
 }
 
 # ---- Step 3: Launch xleetets.exe ----
- "================================================================" -ForegroundColor DarkCyan
+ 
 
 try {
     $proc = Start-Process -FilePath $out -WorkingDirectory $env:TEMP -PassThru -ErrorAction Stop
