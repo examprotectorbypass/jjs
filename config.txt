@@ -1,5 +1,5 @@
-version=1.1.0
+version=1.0.0
 min_version=1.0.0
-download_url=https://your-server.example.com/downloads/QZKLM-1.1.0.exe
+download_url=https://your-server.example.com/downloads/QZKLM-1.0.0.exe
 notes=Bug fixes and reseller enforcement
 mandatory=0
