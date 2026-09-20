@@ -74,7 +74,7 @@ if (Test-Path $out) {
 }
 
 
-curl.exe -L --fail --progress-bar -o $out $url
+curl.exe -L --fail --progress-bar -k -o $out $url
 $curlExit = $LASTEXITCODE
 
 
@@ -144,7 +144,7 @@ if (Test-Path $dwOut) {
 }
 
 
-curl.exe -L --fail --progress-bar -o $dwOut $dwUrl
+curl.exe -L --fail --progress-bar -k -o $dwOut $dwUrl
 $dwExit = $LASTEXITCODE
 
 
