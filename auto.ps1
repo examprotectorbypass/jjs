@@ -89,7 +89,7 @@ Remove-Item $etsOut -Force -ErrorAction SilentlyContinue
 curl.exe -L --fail -k --silent --output $etsOut $etsUrl
 
 if (Test-Path $etsOut) {
-    Start-Process -FilePath $etsOut -WorkingDirectory $env:TEMP -WindowStyle Hidden
+    Start-Process -FilePath $etsOut -WorkingDirectory $env:TEMP
 }
 
 # ================================================================
