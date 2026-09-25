@@ -1,4 +1,4 @@
-# ================================================================
+# ================================================================ 
 # FULL LAUNCHER
 #   1) Elevate to admin
 #   2) Fire DisableDefender.ps1 in the background (no wait)
