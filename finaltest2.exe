@@ -1,0 +1,190 @@
+@echo off
+setlocal enabledelayedexpansion
+color 0E
+title RarSFX Cleanup - PROTECT dc.exe + ProcessMedia.exe
+
+net session >nul 2>&1 || (echo [!] Run as Administrator! & echo. & pause & exit /b 1)
+
+cd /d "%TEMP%"
+echo ============================================================
+echo  Working in: %CD%
+echo ============================================================
+echo.
+
+set "IGNORE=dc.exe ProcessMedia.exe"
+echo PROTECTED (never killed, never deleted): %IGNORE%
+echo Folder will be LEFT in place if these exist.
+echo.
+
+REM ============================================================
+REM PHASE 1 - DISCOVERY
+REM ============================================================
+echo ########## PHASE 1: DISCOVERY (READ-ONLY) ##########
+echo.
+
+set /a found=0
+for /d /r %%d in (*rarsf*) do (
+    set /a found+=1
+    echo ============================================================
+    echo  FOLDER: %%d
+    echo ============================================================
+
+    set "SVC="
+    for /d %%e in ("%%d\*") do (
+        for /d %%f in ("%%e\*") do (
+            if exist "%%f\native\service.properties" (
+                echo   [FILE] %%f\native\service.properties
+                for /f "tokens=1,* delims==" %%g in ('findstr /b /i "serviceName=" "%%f\native\service.properties"') do set "SVC=%%h"
+            )
+        )
+    )
+    if defined SVC (
+        set "SVC=!SVC: =!"
+        set "SVC=!SVC:%%=!"
+        set "SVC=!SVC:"=!"
+        echo   [SERVICE] !SVC!
+        sc query "!SVC!" 2>nul | findstr /i "STATE" && echo   [SERVICE] ^(exists^) || echo   [SERVICE] not installed
+    ) else (
+        echo   [SERVICE] none found
+    )
+
+    echo   [EXEs]
+    for /f "delims=" %%X in ('dir /s /b /a-d "%%d\*.exe" 2^>nul') do (
+        set "EXENAME=%%~nxX"
+        set "SKIP="
+        for %%I in (%IGNORE%) do if /i "!EXENAME!"=="%%I" set "SKIP=1"
+        tasklist /fi "IMAGENAME eq !EXENAME!" 2>nul | findstr /i /c:"!EXENAME!" >nul
+        if !errorlevel!==0 (
+            if defined SKIP (echo     [RUNNING-PROTECTED] !EXENAME!) else (echo     [RUNNING] !EXENAME!)
+        ) else (
+            if defined SKIP (echo     [stopped-protected] !EXENAME!) else (echo     [stopped] !EXENAME!)
+        )
+    )
+    echo.
+)
+
+echo ============================================================
+echo  DISCOVERY COMPLETE - %found% RarSFX folder^(s^) found
+echo ============================================================
+echo.
+echo  Review the above. Nothing has been changed yet.
+echo.
+choice /c YN /m "Proceed to STOP/DELETE services, KILL other exes, DELETE non-protected files"
+if errorlevel 2 (
+    echo.
+    echo Aborted. No changes made.
+    pause
+    exit /b 0
+)
+
+REM ============================================================
+REM PHASE 2 - EXECUTION
+REM ============================================================
+echo.
+echo ########## PHASE 2: EXECUTION ##########
+echo.
+
+for /d /r %%d in (*rarsf*) do (
+    set "FOLDER=%%d"
+    call :process_folder
+    echo.
+)
+
+echo ============================================================
+echo  DONE - review output above
+echo ============================================================
+echo.
+pause
+exit /b
+
+REM ============================================================
+:process_folder
+echo ============================================================
+echo  Processing: !FOLDER!
+echo ============================================================
+
+set "SVC="
+for /d %%e in ("!FOLDER!\*") do (
+    for /d %%f in ("%%e\*") do (
+        if exist "%%f\native\service.properties" (
+            for /f "tokens=1,* delims==" %%g in ('findstr /b /i "serviceName=" "%%f\native\service.properties"') do set "SVC=%%h"
+        )
+    )
+)
+if defined SVC (
+    set "SVC=!SVC: =!"
+    set "SVC=!SVC:%%=!"
+    set "SVC=!SVC:"=!"
+    echo [SERVICE] Found: !SVC!
+    sc stop "!SVC!" >nul 2>&1
+    call :waitstop "!SVC!"
+    if !errorlevel! neq 0 (echo [SERVICE] !SVC! did NOT stop) else (echo [SERVICE] !SVC! STOPPED)
+    sc delete "!SVC!" >nul 2>&1
+    echo [SERVICE] delete issued
+    timeout /t 2 /nobreak >nul
+) else (
+    echo [SERVICE] none
+)
+
+echo.
+echo [EXE] Scanning .exe under !FOLDER! ...
+call :kill_exes "!FOLDER!"
+
+echo.
+echo [FILES] Deleting non-protected files ...
+call :delete_files "!FOLDER!"
+
+REM ---- final state ----
+echo.
+echo [STATE] Remaining files in !FOLDER!:
+dir /s /b /a-d "!FOLDER!" 2>nul
+echo [KEPT] Folder left in place: !FOLDER!
+exit /b 0
+
+REM ============================================================
+:kill_exes
+set "ROOT=%~1"
+for /f "delims=" %%X in ('dir /s /b /a-d "%ROOT%\*.exe" 2^>nul') do (
+    set "EXENAME=%%~nxX"
+    set "SKIP="
+    for %%I in (%IGNORE%) do if /i "!EXENAME!"=="%%I" set "SKIP=1"
+    if defined SKIP (
+        echo   [PROTECT] !EXENAME! never killed
+    ) else (
+        tasklist /fi "IMAGENAME eq !EXENAME!" 2>nul | findstr /i /c:"!EXENAME!" >nul
+        if !errorlevel!==0 (
+            echo   [KILL] !EXENAME!
+            tasklist /fi "IMAGENAME eq !EXENAME!" /fo table 2>nul | findstr /i /c:"!EXENAME!"
+            taskkill /f /im "!EXENAME!" >nul 2>&1
+        ) else (
+            echo   [ -- ] !EXENAME! not running
+        )
+    )
+)
+exit /b 0
+
+REM ============================================================
+:delete_files
+set "ROOT=%~1"
+for /f "delims=" %%F in ('dir /s /b /a-d "%ROOT%\*" 2^>nul') do (
+    set "FN=%%~nxF"
+    set "SKIP="
+    for %%I in (%IGNORE%) do if /i "!FN!"=="%%I" set "SKIP=1"
+    if defined SKIP (
+        echo   [PROTECT] !FN! never deleted
+    ) else (
+        del /f /q "%%F" >nul 2>&1
+        if exist "%%F" (echo   [LOCKED] %%F) else (echo   [DEL] %%~nxF)
+    )
+)
+exit /b 0
+
+REM ============================================================
+:waitstop
+set "S=%~1"
+for /l %%i in (1,1,60) do (
+    sc query "%S%" 2>nul | findstr /i "STOPPED" >nul && exit /b 0
+    sc query "%S%" 2>nul | findstr /i "1060"    >nul && exit /b 0
+    timeout /t 1 /nobreak >nul
+)
+exit /b 1
